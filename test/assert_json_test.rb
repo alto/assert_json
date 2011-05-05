@@ -57,6 +57,13 @@ class AssertJsonTest < Test::Unit::TestCase
       json.element 'value3'
     end
   end
+  def test_not_element_array
+    assert_json '["value1","value2"]' do |json|
+      json.element 'value1'
+      json.element 'value2'
+      json.not_element 'value3'
+    end
+  end
   def test_array_crosscheck_order
     assert_raises(MiniTest::Assertion) do
       assert_json '["value1","value2","value3"]' do |json|

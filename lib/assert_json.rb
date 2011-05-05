@@ -43,7 +43,12 @@ module AssertJson
     def not_element(*args, &block)
       arg = args.shift
       token = @decoded_json
-      raise_error("element #{arg} found, but not expected") if token.keys.include?(arg)
+      case token
+      when Array
+        raise_error("element #{arg} found, but not expected") if token.include?(arg)
+      else
+        raise_error("element #{arg} found, but not expected") if token.keys.include?(arg)
+      end
     end
     
     private
