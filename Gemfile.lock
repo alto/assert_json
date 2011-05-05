@@ -1,0 +1,18 @@
+PATH
+  remote: .
+  specs:
+    assert_json (0.0.1)
+      activesupport
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.0.7)
+    minitest (2.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  assert_json!
+  minitest
