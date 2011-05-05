@@ -1,51 +1,55 @@
-=AssertJson
+AssertJson
+==========
 
-A rails plugin to test JSON strings.
+A gem to test JSON strings.
 
-http://github.com/xing/assert_json
-
-==Installation
+Installation
+------------
 
   cd path/to/your/rails-project
   ./script/plugin install git://github.com/xing/assert_json.git
 
 
-==Usage
+Usage
+-----
 
-  class MyActionTest < ActionController::TestCase
-    include AssertJson
+``` ruby
+class MyActionTest < ActionController::TestCase
+  include AssertJson
 
-    def test_my_action
-      get :my_action, :format => 'json'
-      # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}'
-      
-      assert_json(@response.body) do |json|
-        json.element 'key' do
-          json.element 'inner_key1', 'value1'
-          json.element 'inner_key2', 'value2'
-        end
-        json.not_element 'key_not_included'
+  def test_my_action
+    get :my_action, :format => 'json'
+    # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}'
+    
+    assert_json(@response.body) do |json|
+      json.element 'key' do
+        json.element 'inner_key1', 'value1'
+        json.element 'inner_key2', 'value2'
       end
+      json.not_element 'key_not_included'
     end
-
   end
 
+end
+```
 
-==Authors
+Authors
+-------
 
-{Thorsten Böttger}[http://github.com/alto],
-{Andree Wille}[http://github.com/dreewill],
-{Ralph von der Heyden}[http://github.com/ralph]
+[Thorsten Böttger](http://github.com/alto),
+[Andree Wille](http://github.com/dreewill),
+[Ralph von der Heyden](http://github.com/ralph)
 
 Please find out more about our work in our 
-{tech blog}[http://blog.xing.com/category/english/tech-blog].
+[Xing Dev Blog](http://devblog.xing.com/).
 
 
-==License
+License
+-------
 
 The MIT License
  
-Copyright (c) 2009 {XING AG}[http://www.xing.com/]
+Copyright (c) 2009-2011 [XING AG](http://www.xing.com/)
  
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
