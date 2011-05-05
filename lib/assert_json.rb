@@ -17,14 +17,14 @@ module AssertJson
       token = @decoded_json.is_a?(Array) ? @decoded_json.shift : @decoded_json
       case token
       when Hash
-        raise Test::Unit::AssertionFailedError.new("element #{arg} not found") unless token.keys.include?(arg)
+        raise_error("element #{arg} not found") unless token.keys.include?(arg)
         if second_arg = args.shift
-          raise Test::Unit::AssertionFailedError.new("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg != token[arg]
+          raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg != token[arg]
         end
       when String, Array
-        raise Test::Unit::AssertionFailedError.new("element #{arg} not found") if token != arg
+        raise_error("element #{arg} not found") if token != arg
       when NilClass
-        raise Test::Unit::AssertionFailedError.new("no element left")
+        raise_error("no element left")
       else
         flunk
       end
@@ -43,8 +43,18 @@ module AssertJson
     def not_element(*args, &block)
       arg = args.shift
       token = @decoded_json
-      raise Test::Unit::AssertionFailedError.new("element #{arg} found, but not expected") if token.keys.include?(arg)
+      raise_error("element #{arg} found, but not expected") if token.keys.include?(arg)
     end
+    
+    private
+    
+      def raise_error(message)
+        if Object.const_defined?(:MiniTest)
+          raise MiniTest::Assertion.new(message)
+        else
+          raise Test::Unit::AssertionFailedError.new(message)
+        end
+      end
     
   end
 end
