@@ -30,7 +30,7 @@ class MyActionTest < ActionController::TestCase
     assert_json(@response.body) do |json|
       json.element 'key' do
         json.element 'inner_key1', 'value1'
-        json.element 'inner_key2', 'value2'
+        json.element 'inner_key2', /lue2/
       end
       json.not_element 'key_not_included'
     end

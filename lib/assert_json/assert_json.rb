@@ -19,10 +19,22 @@ module AssertJson
       when Hash
         raise_error("element #{arg} not found") unless token.keys.include?(arg)
         if second_arg = args.shift
-          raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg != token[arg]
+          case second_arg
+          when Regexp
+            raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg !~ token[arg]
+          else
+            raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg != token[arg]
+          end
         end
-      when String, Array
+      when Array
         raise_error("element #{arg} not found") if token != arg
+      when String
+        case arg
+        when Regexp
+          raise_error("element #{arg.inspect} not found") if token !~ arg
+        else
+          raise_error("element #{arg.inspect} not found") if token != arg
+        end
       when NilClass
         raise_error("no element left")
       else

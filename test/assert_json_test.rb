@@ -15,6 +15,16 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
+  def test_regular_expression_for_strings
+    assert_json '"string"' do |json|
+      json.element /tri/
+    end
+  end
+  def test_regular_expression_for_hash_values
+    assert_json '{"key":"value"}' do |json|
+      json.element 'key', /alu/
+    end
+  end
   
   def test_single_hash
     assert_json '{"key":"value"}' do |json|
