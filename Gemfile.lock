@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    assert_json (0.0.1)
+    assert_json (0.0.3)
       activesupport
 
 GEM

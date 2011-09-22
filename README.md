@@ -1,19 +1,25 @@
-AssertJson
-==========
+# AssertJson #
 
-A gem to test JSON strings.
+Test your JSON strings.
 
-Installation
-------------
+## Installation ##
 
-  cd path/to/your/rails-project
-  ./script/plugin install git://github.com/xing/assert_json.git
+```sh
+cd path/to/your/rails-project
+./script/plugin install git://github.com/xing/assert_json.git
+```
+
+Or if you prefer [bundler](http://getbundler.com)
+
+```sh
+# in your Gemfile
+gem 'assert_json'
+```
 
 
-Usage
------
+## Usage ##
 
-``` ruby
+```ruby
 class MyActionTest < ActionController::TestCase
   include AssertJson
 
@@ -33,19 +39,16 @@ class MyActionTest < ActionController::TestCase
 end
 ```
 
-Authors
--------
+## Authors ##
 
 [Thorsten Böttger](http://github.com/alto),
-[Andree Wille](http://github.com/dreewill),
 [Ralph von der Heyden](http://github.com/ralph)
 
 Please find out more about our work in our 
 [Xing Dev Blog](http://devblog.xing.com/).
 
 
-License
--------
+## License ##
 
 The MIT License
  
