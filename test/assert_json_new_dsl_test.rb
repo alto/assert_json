@@ -31,6 +31,12 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       has 'key', 'value'
     end
   end
+  def test_single_hash_with_outer_variable
+    @values = {'value' => 'value'}
+    assert_json '{"key":"value"}' do
+      has 'key', @values['value']
+    end
+  end
   def test_single_hash_crosscheck_for_key
     assert_raises(MiniTest::Assertion) do
       assert_json '{"key":"value"}' do
@@ -264,5 +270,4 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-
 end

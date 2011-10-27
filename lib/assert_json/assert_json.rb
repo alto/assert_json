@@ -2,9 +2,18 @@ module AssertJson
   
   def assert_json(json_string, &block)
     if block_given?
-      json = AssertJson::Json.new(json_string)
-      json.instance_exec(json, &block)
+      @json = AssertJson::Json.new(json_string)
+      # json.instance_exec(json, &block)
+      yield @json
     end
+  end
+
+  def has(*args, &block)
+    @json.has(*args, &block)
+  end
+
+  def has_not(*args, &block)
+    @json.has_not(*args, &block)
   end
 
   class Json
