@@ -27,7 +27,7 @@ class MyActionTest < ActionController::TestCase
     get :my_action, :format => 'json'
     # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}'
     
-    assert_json(@response.body) do |json|
+    assert_json(@response.body) do
       has 'key' do
         has 'inner_key1', 'value1'
         has 'inner_key2', /lue2/
