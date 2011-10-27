@@ -2,7 +2,8 @@ module AssertJson
   
   def assert_json(json_string, &block)
     if block_given?
-      yield AssertJson::Json.new(json_string)
+      json = AssertJson::Json.new(json_string)
+      json.instance_exec(json, &block)
     end
   end
 
@@ -51,6 +52,7 @@ module AssertJson
       end
       
     end
+    alias has element
     
     def not_element(*args, &block)
       arg = args.shift
@@ -62,6 +64,7 @@ module AssertJson
         raise_error("element #{arg} found, but not expected") if token.keys.include?(arg)
       end
     end
+    alias has_not not_element
     
     private
     

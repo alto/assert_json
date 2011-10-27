@@ -28,11 +28,11 @@ class MyActionTest < ActionController::TestCase
     # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}'
     
     assert_json(@response.body) do |json|
-      json.element 'key' do
-        json.element 'inner_key1', 'value1'
-        json.element 'inner_key2', /lue2/
+      has 'key' do
+        has 'inner_key1', 'value1'
+        has 'inner_key2', /lue2/
       end
-      json.not_element 'key_not_included'
+      has_not 'key_not_included'
     end
   end
 
