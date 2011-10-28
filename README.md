@@ -39,6 +39,10 @@ class MyActionTest < ActionController::TestCase
 end
 ```
 
+## Changelog ##
+
+Look at the [CHANGELOG](https://github.com/xing/assert_json/blob/master/CHANGELOG.md) for details.
+
 ## Authors ##
 
 [Thorsten Böttger](http://github.com/alto),
