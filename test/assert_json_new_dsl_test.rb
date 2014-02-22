@@ -25,7 +25,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       has 'key', /alu/
     end
   end
-  
+
   def test_single_hash
     assert_json '{"key":"value"}' do
       has 'key', 'value'
@@ -51,7 +51,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_has_not
     assert_json '{"key":"value"}' do
       has 'key', 'value'
@@ -65,7 +65,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_array
     assert_json '["value1","value2","value3"]' do
       has 'value1'
@@ -102,7 +102,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_nested_arrays
     assert_json '[[["deep","another_depp"],["second_deep"]]]' do
       has [["deep","another_depp"],["second_deep"]]
@@ -120,7 +120,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_hash_with_value_array
     assert_json '{"key":["value1","value2"]}' do
       has 'key', ['value1', 'value2']
@@ -147,7 +147,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_hash_with_array_of_hashes
     assert_json '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}' do
       has 'key' do
@@ -174,7 +174,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_array_with_two_hashes
     assert_json '[{"key1":"value1"}, {"key2":"value2"}]' do
       has 'key1', 'value1'
@@ -202,7 +202,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_nested_hashes
     assert_json '{"outer_key":{"key":{"inner_key":"value"}}}' do
       has 'outer_key' do
@@ -228,7 +228,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_real_xws
     assert_json '[{"contact_request":{"sender_id":"3","receiver_id":"2","id":1}}]' do
       has 'contact_request' do
@@ -237,7 +237,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
         has 'id', 1
       end
     end
-  
+
     assert_json '[{"private_message":{"sender":{"display_name":"first last"},"receiver_id":"2","body":"body"}}]' do
       has 'private_message' do
         has 'sender' do
@@ -248,7 +248,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_not_enough_hass_in_array
     assert_raises(MiniTest::Assertion) do
       assert_json '["one","two"]' do
@@ -258,7 +258,7 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_not_enough_hass_in_hash_array
     assert_raises(MiniTest::Assertion) do
       assert_json '{"key":[{"key1":"value1"}, {"key2":"value2"}]}' do

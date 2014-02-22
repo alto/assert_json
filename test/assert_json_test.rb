@@ -25,7 +25,7 @@ class AssertJsonTest < Test::Unit::TestCase
       json.element 'key', /alu/
     end
   end
-  
+
   def test_single_hash
     assert_json '{"key":"value"}' do |json|
       json.element 'key', 'value'
@@ -45,7 +45,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_not_element
     assert_json '{"key":"value"}' do |json|
       json.element 'key', 'value'
@@ -59,7 +59,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_array
     assert_json '["value1","value2","value3"]' do |json|
       json.element 'value1'
@@ -96,7 +96,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_nested_arrays
     assert_json '[[["deep","another_depp"],["second_deep"]]]' do |json|
       json.element [["deep","another_depp"],["second_deep"]]
@@ -114,7 +114,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_hash_with_value_array
     assert_json '{"key":["value1","value2"]}' do |json|
       json.element 'key', ['value1', 'value2']
@@ -168,7 +168,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_array_with_two_hashes
     assert_json '[{"key1":"value1"}, {"key2":"value2"}]' do |json|
       json.element 'key1', 'value1'
@@ -196,7 +196,7 @@ class AssertJsonTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_nested_hashes
     assert_json '{"outer_key":{"key":{"inner_key":"value"}}}' do |json|
       json.element 'outer_key' do
