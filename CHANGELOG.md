@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 0.1.2 (Unreleased)
+## 0.2.0
+
+ * support selecting (and skipping) single items of an array (see [issue 2](https://github.com/alto/assert_json/issues/2))
 
 ## 0.1.1
 

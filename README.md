@@ -6,7 +6,7 @@ Test your JSON strings.
 
 ```sh
 cd path/to/your/rails-project
-./script/plugin install git://github.com/xing/assert_json.git
+./script/plugin install git://github.com/alto/assert_json.git
 ```
 
 Or if you prefer [bundler](http://getbundler.com)
@@ -39,13 +39,30 @@ class MyActionTest < ActionController::TestCase
 end
 ```
 
+Arrays are little bit special. If you want to test single items (or skip others) you
+use `item(i)` to select the item to test, like this
+
+```ruby
+assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+  item 0 do
+    has 'id', 1
+    has 'key', 'test'
+    has 'name', 'test'
+  end
+  item 2 do
+    has 'id', 3
+  end
+end
+```
+
+
 ## Changelog ##
 
-Look at the [CHANGELOG](https://github.com/xing/assert_json/blob/master/CHANGELOG.md) for details.
+Look at the [CHANGELOG](https://github.com/alto/assert_json/blob/master/CHANGELOG.md) for details.
 
 ## Authors ##
 
-[Thorsten Böttger](http://github.com/alto),
+[Thorsten Böttger](http://github.com/alto)
 
 
 ## License ##

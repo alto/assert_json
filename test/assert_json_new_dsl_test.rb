@@ -175,6 +175,35 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
     end
   end
 
+
+  def test_array_with_multi_item_hashes
+    assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+      item 0 do
+        has 'id', 1
+        has 'key', 'test'
+        has 'name', 'test'
+      end
+      item 2 do
+        has 'id', 3
+      end
+    end
+  end
+  def test_array_with_multi_item_hashes_crosscheck
+    assert_raises(MiniTest::Assertion) do
+      assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+        item 0 do
+          has 'id', 1
+          has 'key', 'test'
+          has 'name', 'test'
+        end
+        item 2 do
+          has 'id', 2
+        end
+      end
+    end
+  end
+
+
   def test_array_with_two_hashes
     assert_json '[{"key1":"value1"}, {"key2":"value2"}]' do
       has 'key1', 'value1'

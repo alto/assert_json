@@ -1,11 +1,15 @@
 module AssertJson
-  
+
   def assert_json(json_string, &block)
     if block_given?
       @json = AssertJson::Json.new(json_string)
       # json.instance_exec(json, &block)
       yield @json
     end
+  end
+
+  def item(index, &block)
+    @json.item(index, &block)
   end
 
   def has(*args, &block)
@@ -17,14 +21,27 @@ module AssertJson
   end
 
   class Json
-    
+
     def initialize(json_string)
       @decoded_json = ActiveSupport::JSON.decode(json_string)
     end
-    
+
+    def item(index, &block)
+      @index = index
+      yield if block_given?
+    end
+
     def element(*args, &block)
       arg = args.shift
-      token = @decoded_json.is_a?(Array) ? @decoded_json.shift : @decoded_json
+      token = if @decoded_json.is_a?(Array)
+                if @index
+                  @decoded_json[@index]
+                else
+                  @decoded_json.shift
+                end
+              else
+                @decoded_json
+              end
       case token
       when Hash
         raise_error("element #{arg} not found") unless token.keys.include?(arg)
@@ -50,7 +67,7 @@ module AssertJson
       else
         flunk
       end
-    
+
       if block_given?
         begin
           in_scope, @decoded_json = @decoded_json, token.is_a?(Hash) ? token[arg] : token
@@ -59,10 +76,10 @@ module AssertJson
           @decoded_json = in_scope
         end
       end
-      
+
     end
     alias has element
-    
+
     def not_element(*args, &block)
       arg = args.shift
       token = @decoded_json
@@ -74,9 +91,9 @@ module AssertJson
       end
     end
     alias has_not not_element
-    
+
     private
-    
+
       def raise_error(message)
         if Object.const_defined?(:MiniTest)
           raise MiniTest::Assertion.new(message)
@@ -84,6 +101,6 @@ module AssertJson
           raise Test::Unit::AssertionFailedError.new(message)
         end
       end
-    
+
   end
 end
