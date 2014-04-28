@@ -299,4 +299,49 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
       end
     end
   end
+
+  def test_boolean
+    assert_json '{"key": true}' do
+      has 'key', true
+    end
+    assert_json '{"key": false}' do
+      has 'key', false
+    end
+  end
+
+  def test_boolean_crosscheck
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"key": false}' do
+        has 'key', true
+      end
+    end
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"key": true}' do
+        has 'key', false
+      end
+    end
+  end
+
+  def test_null
+    assert_json '{"key": null}' do
+      has 'key', nil
+    end
+  end
+
+  def test_not_null
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"key": 1}' do
+        has 'key', nil
+      end
+    end
+  end
+
+  def test_null_crosscheck
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"key": null}' do
+        has_not 'key'
+      end
+    end
+  end
+
 end

@@ -45,7 +45,8 @@ module AssertJson
       case token
       when Hash
         raise_error("element #{arg} not found") unless token.keys.include?(arg)
-        if second_arg = args.shift
+        unless args.empty?
+          second_arg = args.shift
           case second_arg
           when Regexp
             raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg !~ token[arg]
