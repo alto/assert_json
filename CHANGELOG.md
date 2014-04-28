@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.1
+
+ * correctly match boolean and null values (thanks to [@pgaertig](https://github.com/pgaertig), see [issue 3](https://github.com/alto/assert_json/issues/3))
+
 ## 0.2.0
 
  * support selecting (and skipping) single items of an array (see [issue 2](https://github.com/alto/assert_json/issues/2))
