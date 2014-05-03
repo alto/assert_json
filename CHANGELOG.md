@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.0 (not yet released)
+
+ * allow Ruby symbols as keys and values (thanks to [@pgaertig](https://github.com/pgaertig), see [issue 4](https://github.com/alto/assert_json/issues/4))
+
 ## 0.2.1
 
  * correctly match boolean and null values (thanks to [@pgaertig](https://github.com/pgaertig), see [issue 3](https://github.com/alto/assert_json/issues/3))
