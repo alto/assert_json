@@ -344,4 +344,66 @@ class AssertJsonNewDslTest < Test::Unit::TestCase
     end
   end
 
+  def test_symbol_as_a_value
+    assert_json '{"key": "text"}' do
+      has :key, :text
+    end
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"key": "badtext"}' do
+        has :key, :text
+      end
+    end
+  end
+
+  def test_symbol_as_a_key
+    assert_json '{"sym": true, "text": "1"}' do
+      has :sym, true
+      has :text, /\d+/
+      has_not :bad_sym
+    end
+    assert_json '{"sym": false, "text": "2", "topkey": {"subkey": "value1"}}' do
+      has :sym, false
+      has :text, /\d+/
+      has_not :bad_sym
+      has :topkey do
+        has :subkey, :value1
+      end
+    end
+  end
+
+  def test_symbol_as_string_value
+    assert_json '{"topkey": {"subkey": "value1"}}' do
+      has :topkey do
+        has :subkey do
+          has :value1
+        end
+      end
+    end
+  end
+
+
+  def test_symbol_as_a_key_crossheck
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"text": "1"}' do
+        has :sym, true  #this should fail
+        has :text, /\d+/
+        has_not :bad_sym
+      end
+    end
+
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"sym": false, "text": "abc"}' do
+        has :sym, false
+        has :text, /\d+/   #this should fail
+        has_not :bad_sym
+      end
+    end
+
+    assert_raises(MiniTest::Assertion) do
+      assert_json '{"sym": false}' do
+        has_not :sym
+      end
+    end
+  end
+
 end
