@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_helper')
+require 'test_helper'
 
-class AssertJsonTest < Test::Unit::TestCase
+class AssertJsonTest < Minitest::Test
   include AssertJson
 
   def test_string

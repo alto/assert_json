@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'minitest'
-require 'test/unit'
+require 'minitest/autorun'
 require 'active_support'
 
 $:.push File.expand_path("../../lib", __FILE__)
