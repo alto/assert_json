@@ -44,14 +44,18 @@ module AssertJson
               end
       case token
       when Hash
+        arg = arg.to_s
         raise_error("element #{arg} not found") unless token.keys.include?(arg)
         unless args.empty?
           second_arg = args.shift
+          gen_error = lambda {raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}")}
           case second_arg
           when Regexp
-            raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg !~ token[arg]
+            gen_error.call if second_arg !~ token[arg]
+          when Symbol
+            gen_error.call if second_arg.to_s != token[arg]
           else
-            raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}") if second_arg != token[arg]
+            gen_error.call if second_arg != token[arg]
           end
         end
       when Array
@@ -61,7 +65,7 @@ module AssertJson
         when Regexp
           raise_error("element #{arg.inspect} not found") if token !~ arg
         else
-          raise_error("element #{arg.inspect} not found") if token != arg
+          raise_error("element #{arg.inspect} not found") if token != arg.to_s
         end
       when NilClass
         raise_error("no element left")
@@ -86,9 +90,9 @@ module AssertJson
       token = @decoded_json
       case token
       when Array
-        raise_error("element #{arg} found, but not expected") if token.include?(arg)
+        raise_error("element #{arg} found, but not expected") if token.include?(arg.to_s)
       else
-        raise_error("element #{arg} found, but not expected") if token.keys.include?(arg)
+        raise_error("element #{arg} found, but not expected") if token.keys.include?(arg.to_s)
       end
     end
     alias has_not not_element

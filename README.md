@@ -25,14 +25,15 @@ class MyActionTest < ActionController::TestCase
 
   def test_my_action
     get :my_action, :format => 'json'
-    # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}]}'
+    # => @response.body= '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}, {'special-key': null}]}'
 
     assert_json(@response.body) do
-      has 'key' do
-        has 'inner_key1', 'value1'
-        has 'inner_key2', /lue2/
+      has :key do
+        has :inner_key1, 'value1'
+        has :inner_key2, /lue2/
       end
-      has_not 'key_not_included'
+      has 'special-key', nil
+      has_not :key_not_included
     end
   end
 
@@ -45,9 +46,9 @@ use `item(i)` to select the item to test, like this
 ```ruby
 assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
   item 0 do
-    has 'id', 1
-    has 'key', 'test'
-    has 'name', 'test'
+    has :id, 1
+    has :key, 'test'
+    has :name, 'test'
   end
   item 2 do
     has 'id', 3
