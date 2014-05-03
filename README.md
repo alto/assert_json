@@ -1,5 +1,7 @@
 # AssertJson #
 
+[![Build Status](https://travis-ci.org/alto/assert_json.svg?branch=master)](https://travis-ci.org/alto/assert_json)
+
 Test your JSON strings.
 
 ## Installation ##
