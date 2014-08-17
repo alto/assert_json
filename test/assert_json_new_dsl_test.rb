@@ -406,4 +406,10 @@ class AssertJsonNewDslTest < Minitest::Test
     end
   end
 
+  def test_regex_with_number
+    assert_json '{"number": 1}' do
+      has :number, /^\d+$/
+    end
+  end
+
 end
