@@ -51,7 +51,7 @@ module AssertJson
           gen_error = lambda {raise_error("element #{token[arg].inspect} does not match #{second_arg.inspect}")}
           case second_arg
           when Regexp
-            gen_error.call if second_arg !~ token[arg]
+            gen_error.call if second_arg !~ token[arg].to_s
           when Symbol
             gen_error.call if second_arg.to_s != token[arg]
           else
