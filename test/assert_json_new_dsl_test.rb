@@ -3,6 +3,20 @@ require 'test_helper'
 class AssertJsonNewDslTest < Minitest::Test
   include AssertJson
 
+  def test_my_action
+    body = '{"key":[{"inner_key1":"value1"},{"inner_key2":"value2"}, {"special-key": null}]}'
+
+    assert_json(body) do
+      has :key do
+        has :inner_key1, 'value1'
+        has :inner_key2, /lue2/
+        has 'special-key', nil
+      end
+      has_not :key_not_included
+    end
+
+  end
+
   def test_string
     assert_json '"key"' do
       has 'key'
