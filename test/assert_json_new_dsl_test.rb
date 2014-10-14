@@ -121,6 +121,43 @@ class AssertJsonNewDslTest < Minitest::Test
     end
   end
 
+  def test_itemised_nested_array
+    json = '[["deep","another_depp"],["second_deep"]]'
+    assert_json json do
+      item 0 do
+        item 0 do
+          has 'deep'
+        end
+        item 1 do
+          has 'another_depp'
+        end
+      end
+      item 1 do
+        has 'second_deep'
+      end
+    end
+  end
+  def test_itemised_nested_array_crosscheck
+    json = '[["deep","another_depp"],["second_deep"]]'
+    assert_json json do
+      item 0 do
+        item 0 do
+          has 'deep'
+        end
+        item 1 do
+          assert_raises(MiniTest::Assertion) do
+            has 'wrong_item_value'
+          end
+        end
+      end
+      item 1 do
+        assert_raises(MiniTest::Assertion) do
+          has 'unknown_item_value'
+        end
+      end
+    end
+  end
+
   def test_hash_with_value_array
     assert_json '{"key":["value1","value2"]}' do
       has 'key', ['value1', 'value2']
@@ -409,6 +446,31 @@ class AssertJsonNewDslTest < Minitest::Test
   def test_regex_with_number
     assert_json '{"number": 1}' do
       has :number, /^\d+$/
+    end
+  end
+
+  # for issue #/
+  def test_complex_example
+    json = '{"count":2,"total_count":3,"results":[{"id":14,"tags":["tag1","tag2"],"created_at":"2014-10-14T00:50:39Z","updated_at":"2014-10-14T00:51:39Z"},{"id":15,"tags":["tag3","tag4"],"created_at":"2014-10-15T00:50:39Z","updated_at":"2014-10-15T00:51:39Z"}]}'
+
+    assert_json json do
+      has 'count', 2
+      has 'total_count', 3
+      has 'results' do
+        item 0 do
+          has 'id', 14
+          has 'tags' do
+            item 0 do
+              has 'tag1'
+            end
+            item 1 do
+              has 'tag2'
+            end
+          end
+          has 'created_at', '2014-10-14T00:50:39Z'
+          has 'updated_at', '2014-10-14T00:51:39Z'
+        end
+      end
     end
   end
 

@@ -1,11 +1,12 @@
 # CHANGELOG
 
-## 0.3.0 (not yet released)
+## 0.2.3
 
- * allow Ruby symbols as keys and values (thanks to [@pgaertig](https://github.com/pgaertig), see [issue 4](https://github.com/alto/assert_json/issues/4))
+ * bugfix for itemised nested arrays (see [issue 7](https://github.com/alto/assert_json/issues/7))
 
 ## 0.2.2
 
+ * allow Ruby symbols as keys and values (thanks to [@pgaertig](https://github.com/pgaertig), see [issue 4](https://github.com/alto/assert_json/issues/4))
  * allowing to validate real numbers (thanks to [@plu](https://github.com/plu), see [issue 6](https://github.com/alto/assert_json/pull/6))
 
 ## 0.2.1

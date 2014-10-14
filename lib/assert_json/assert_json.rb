@@ -27,21 +27,25 @@ module AssertJson
     end
 
     def item(index, &block)
-      @index = index
-      yield if block_given?
+      decoded_json_in_scope = @decoded_json
+      @decoded_json = @decoded_json[index]
+      begin
+        yield if block_given?
+      ensure
+        @decoded_json = decoded_json_in_scope
+      end
     end
 
     def element(*args, &block)
       arg = args.shift
-      token = if @decoded_json.is_a?(Array)
-                if @index
-                  @decoded_json[@index]
-                else
-                  @decoded_json.shift
-                end
+
+      token = case @decoded_json
+              when Array
+                @decoded_json.shift
               else
                 @decoded_json
               end
+
       case token
       when Hash
         arg = arg.to_s
@@ -59,7 +63,9 @@ module AssertJson
           end
         end
       when Array
-        raise_error("element #{arg} not found") if token != arg
+        if !block_given? && token != arg
+          raise_error("element #{arg} not found")
+        end
       when String
         case arg
         when Regexp
@@ -75,10 +81,16 @@ module AssertJson
 
       if block_given?
         begin
-          in_scope, @decoded_json = @decoded_json, token.is_a?(Hash) ? token[arg] : token
+          decoded_json_in_scope = @decoded_json
+          @decoded_json = case token
+                          when Hash
+                            token[arg]
+                          else
+                            token
+                          end
           yield
         ensure
-          @decoded_json = in_scope
+          @decoded_json = decoded_json_in_scope
         end
       end
 
