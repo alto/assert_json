@@ -5,6 +5,7 @@ module AssertJson
       @json = AssertJson::Json.new(json_string)
       # json.instance_exec(json, &block)
       yield @json
+      @json.test_for_unexpected_keys('root')
     end
   end
 
@@ -20,19 +21,31 @@ module AssertJson
     @json.has_not(*args, &block)
   end
 
+  def has_only
+    @json.has_only
+  end
+
   class Json
 
     def initialize(json_string)
       @decoded_json = ActiveSupport::JSON.decode(json_string)
+      @expected_keys = []
+      @only = false
     end
 
     def item(index, &block)
+      only_in_scope = @only
+      expected_keys_in_scope = @expected_keys
+      @expected_keys = []
       decoded_json_in_scope = @decoded_json
       @decoded_json = @decoded_json[index]
       begin
         yield if block_given?
+        test_for_unexpected_keys(index)
       ensure
         @decoded_json = decoded_json_in_scope
+        @expected_keys = expected_keys_in_scope
+        @only = only_in_scope
       end
     end
 
@@ -79,8 +92,13 @@ module AssertJson
         flunk
       end
 
+      @expected_keys.push arg
+
       if block_given?
         begin
+          only_in_scope = @only
+          expected_keys_in_scope = @expected_keys
+          @expected_keys = []
           decoded_json_in_scope = @decoded_json
           @decoded_json = case token
                           when Hash
@@ -89,11 +107,13 @@ module AssertJson
                             token
                           end
           yield
+          test_for_unexpected_keys(arg)
         ensure
+          @expected_keys = expected_keys_in_scope
+          @only = only_in_scope
           @decoded_json = decoded_json_in_scope
         end
       end
-
     end
     alias has element
 
@@ -108,6 +128,22 @@ module AssertJson
       end
     end
     alias has_not not_element
+
+    def only
+      @only = true
+    end
+    alias has_only only
+
+    def test_for_unexpected_keys(name = 'root')
+      return unless @only
+
+      if @decoded_json.is_a?(Hash)
+        unexpected_keys = @decoded_json.keys - @expected_keys
+        if unexpected_keys.count > 0
+          raise_error("element #{name} has unexpected keys: #{unexpected_keys.join(', ')}")
+        end
+      end
+    end
 
     private
 
