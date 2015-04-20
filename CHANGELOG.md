@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.0
+
+ * add support for `has_only` (to test that objects have the declared set of properties and nothing more) (thanks to [@derek-watson](https://github.com/derek-watson), see [issue 8](https://github.com/alto/assert_json/pull/8))
+
 ## 0.2.3
 
  * bugfix for itemised nested arrays (see [issue 7](https://github.com/alto/assert_json/issues/7))
