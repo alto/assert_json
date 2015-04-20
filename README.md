@@ -58,6 +58,26 @@ assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "nam
 end
 ```
 
+To test that objects have the declared set of properties and nothing more,
+include `has_only` at any level, like this
+
+```ruby
+assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+  has_only
+  item 0 do
+    has :id, 1
+    has :key, 'test'
+    has :name, 'test'
+  end
+  item 1 do
+    has 'id', 2
+    has 'key', 'test'
+  end
+end
+
+# Failure: element 1 has unexpected keys: name
+```
+
 
 ## Changelog ##
 
