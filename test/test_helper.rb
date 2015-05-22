@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require 'maxitest/autorun'
 require 'active_support'
 
 $:.push File.expand_path("../../lib", __FILE__)
