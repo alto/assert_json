@@ -1,4 +1,5 @@
 require 'maxitest/autorun'
+require 'shoulda-context'
 require 'active_support'
 
 $:.push File.expand_path("../../lib", __FILE__)
