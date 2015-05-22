@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# nodoc
 class AssertJsonNewDslTest < Minitest::Test
   include AssertJson
 
@@ -18,7 +19,7 @@ class AssertJsonNewDslTest < Minitest::Test
     end
     should "test_regular_expression_for_strings" do
       assert_json '"string"' do
-        has /tri/
+        has(/tri/)
       end
     end
     should "test_regular_expression_for_hash_values" do
@@ -35,7 +36,7 @@ class AssertJsonNewDslTest < Minitest::Test
       end
     end
     should "test_single_hash_with_outer_variable" do
-      @values = {'value' => 'value'}
+      @values = { 'value' => 'value' }
       assert_json '{"key":"value"}' do
         has 'key', @values['value']
       end
@@ -110,18 +111,18 @@ class AssertJsonNewDslTest < Minitest::Test
 
     should "test_nested_arrays" do
       assert_json '[[["deep","another_depp"],["second_deep"]]]' do
-        has [["deep","another_depp"],["second_deep"]]
+        has [%w(deep another_depp), %w(second_deep)]
       end
     end
     should "test_nested_arrays_crosscheck" do
       assert_raises(MiniTest::Assertion) do
         assert_json '[[["deep","another_depp"],["second_deep"]]]' do
-          has [["deep","wrong_another_depp"],["second_deep"]]
+          has [%w(deep wrong_another_depp), %w(second_deep)]
         end
       end
       assert_raises(MiniTest::Assertion) do
         assert_json '[[["deep","another_depp"],["second_deep"]]]' do
-          has [["deep","another_depp"],["wrong_second_deep"]]
+          has [%w(deep another_depp), %w(wrong_second_deep)]
         end
       end
     end
@@ -167,27 +168,27 @@ class AssertJsonNewDslTest < Minitest::Test
   context "hashes with arrays" do
     should "test_hash_with_value_array" do
       assert_json '{"key":["value1","value2"]}' do
-        has 'key', ['value1', 'value2']
+        has 'key', %w(value1 value2)
       end
     end
     should "test_hash_with_value_array_crosscheck_wrong_key" do
       assert_raises(MiniTest::Assertion) do
         assert_json '{"key":["value1","value2"]}' do
-          has 'wrong_key', ['value1', 'value2']
+          has 'wrong_key', %w(value1 value2)
         end
       end
     end
     should "test_hash_with_value_array_crosscheck_wrong_value1" do
       assert_raises(MiniTest::Assertion) do
         assert_json '{"key":["value1","value2"]}' do
-          has 'key', ['wrong_value1', 'value2']
+          has 'key', %w(wrong_value1 value2)
         end
       end
     end
     should "test_hash_with_value_array_crosscheck_wrong_value2" do
       assert_raises(MiniTest::Assertion) do
         assert_json '{"key":["value1","value2"]}' do
-          has 'key', ['value1', 'wrong_value2']
+          has 'key', %w(value1 wrong_value2)
         end
       end
     end
@@ -222,7 +223,24 @@ class AssertJsonNewDslTest < Minitest::Test
 
   context "arrays with hashes" do
     should "test_array_with_multi_item_hashes" do
-      assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+      json = <<JSON
+[
+  {
+    "id":1,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":2,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":3,
+    "key":"test",
+    "name":"test"
+  }
+]
+JSON
+      assert_json json do
         item 0 do
           has 'id', 1
           has 'key', 'test'
@@ -235,7 +253,24 @@ class AssertJsonNewDslTest < Minitest::Test
     end
     should "test_array_with_multi_item_hashes_crosscheck" do
       assert_raises(MiniTest::Assertion) do
-        assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+        json = <<JSON
+[
+  {
+    "id":1,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":2,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":3,
+    "key":"test",
+    "name":"test"
+  }
+]
+JSON
+        assert_json json do
           item 0 do
             has 'id', 1
             has 'key', 'test'
@@ -247,7 +282,6 @@ class AssertJsonNewDslTest < Minitest::Test
         end
       end
     end
-
 
     should "test_array_with_two_hashes" do
       assert_json '[{"key1":"value1"}, {"key2":"value2"}]' do
@@ -308,7 +342,31 @@ class AssertJsonNewDslTest < Minitest::Test
 
   context "real life examples" do
     should "test_complex_example" do
-      json = '{"count":2,"total_count":3,"results":[{"id":14,"tags":["tag1","tag2"],"created_at":"2014-10-14T00:50:39Z","updated_at":"2014-10-14T00:51:39Z"},{"id":15,"tags":["tag3","tag4"],"created_at":"2014-10-15T00:50:39Z","updated_at":"2014-10-15T00:51:39Z"}]}'
+      json = <<JSON
+{
+  "count":2,
+  "total_count":3,
+  "results":[
+    {
+      "id":14,
+      "tags":[
+        "tag1",
+        "tag2"
+      ],
+      "created_at":"2014-10-14T00:50:39Z",
+      "updated_at":"2014-10-14T00:51:39Z"
+    },{
+      "id":15,
+      "tags":[
+        "tag3",
+        "tag4"
+      ],
+      "created_at":"2014-10-15T00:50:39Z",
+      "updated_at":"2014-10-15T00:51:39Z"
+    }
+  ]
+}
+JSON
 
       assert_json json do
         has 'count', 2
@@ -462,11 +520,10 @@ class AssertJsonNewDslTest < Minitest::Test
       end
     end
 
-
     should "test_symbol_as_a_key_crossheck" do
       assert_raises(MiniTest::Assertion) do
         assert_json '{"text": "1"}' do
-          has :sym, true  #this should fail
+          has :sym, true  # this should fail
           has :text, /\d+/
           has_not :bad_sym
         end
@@ -475,7 +532,7 @@ class AssertJsonNewDslTest < Minitest::Test
       assert_raises(MiniTest::Assertion) do
         assert_json '{"sym": false, "text": "abc"}' do
           has :sym, false
-          has :text, /\d+/   #this should fail
+          has :text, /\d+/   # this should fail
           has_not :bad_sym
         end
       end
@@ -495,5 +552,4 @@ class AssertJsonNewDslTest < Minitest::Test
       end
     end
   end
-
 end

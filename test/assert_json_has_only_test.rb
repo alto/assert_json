@@ -1,5 +1,6 @@
 require_relative './test_helper'
 
+# nodoc
 class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
   include AssertJson
 
@@ -69,7 +70,24 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
     end
 
     should "test_on_root_array_of_objects" do
-      assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+      json = <<JSON
+[
+  {
+    "id":1,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":2,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":3,
+    "key":"test",
+    "name":"test"
+  }
+]
+JSON
+      assert_json json do
         has_only
         item 0 do
           has :id, 1
@@ -81,7 +99,24 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
 
     should "test_on_root_array_of_objects_failure" do
       err = assert_raises(MiniTest::Assertion) do
-        assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "name":"test"}, {"id":3, "key":"test", "name":"test"}]' do
+        json = <<JSON
+[
+  {
+    "id":1,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":2,
+    "key":"test",
+    "name":"test"
+  },{
+    "id":3,
+    "key":"test",
+    "name":"test"
+  }
+]
+JSON
+        assert_json json do
           has_only
           item 0 do
             has :id, 1
@@ -92,5 +127,4 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
       assert_equal 'element 0 has unexpected keys: name', err.message
     end
   end
-
 end

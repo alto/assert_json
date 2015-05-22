@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 require "assert_json/version"
 
 Gem::Specification.new do |s|
@@ -9,13 +9,13 @@ Gem::Specification.new do |s|
   s.description = "A gem to test JSON strings."
 
   s.authors = ["Thorsten Böttger"]
-  s.email = %q{boettger@mt7.de}
-  s.homepage = %q{https://github.com/alto/assert_json}
+  s.email = %w(boettger@mt7.de)
+  s.homepage = %w(https://github.com/alto/assert_json)
   s.licenses = ["MIT"]
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   s.add_dependency 'activesupport'
