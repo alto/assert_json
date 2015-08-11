@@ -40,8 +40,9 @@ module AssertJson
     end
 
     def size(expected)
-      raise_error("element #{@decoded_json.inspect} is not sizable") if !@decoded_json.respond_to?(:size)
-      raise_error("element #{@decoded_json.inspect} has #{@decoded_json.size} items, expected #{expected}") if @decoded_json.size != expected
+      raise_error("element #{@decoded_json.inspect} is not sizable") unless @decoded_json.respond_to?(:size)
+      return if @decoded_json.size == expected
+      raise_error("element #{@decoded_json.inspect} has #{@decoded_json.size} items, expected #{expected}")
     end
 
     def item(index)
