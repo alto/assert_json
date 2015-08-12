@@ -58,6 +58,14 @@ assert_json '[{"id":1, "key":"test", "name":"test"}, {"id":2, "key":"test", "nam
 end
 ```
 
+You can also check the size of arrays like this
+
+```ruby
+assert_json '["value1", "value2"]' do
+  size 2
+end
+```
+
 To test that objects have the declared set of properties and nothing more,
 include `has_only` at any level, like this
 

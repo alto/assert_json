@@ -127,6 +127,29 @@ class AssertJsonNewDslTest < Minitest::Test
       end
     end
 
+    should "test_array_size" do
+      assert_json '["value1","value2"]' do
+        size 2
+      end
+    end
+
+    should "test_array_size_error" do
+      assert_raises(MiniTest::Assertion) do
+        assert_json '["single value"]' do
+          size 2
+        end
+      end
+    end
+
+    should "test_nested_array_size" do
+      assert_json '["value1",["value2.1","value2.2","value3.3"]]' do
+        size 2
+        item 1 do
+          size 3
+        end
+      end
+    end
+
     should "test_itemised_nested_array" do
       json = '[["deep","another_depp"],["second_deep"]]'
       assert_json json do

@@ -9,6 +9,10 @@ module AssertJson
     @json.test_for_unexpected_keys('root')
   end
 
+  def size(expected)
+    @json.size(expected)
+  end
+
   def item(index, &block)
     @json.item(index, &block)
   end
@@ -33,6 +37,12 @@ module AssertJson
       @decoded_json = ActiveSupport::JSON.decode(json_string)
       @expected_keys = []
       @only = false
+    end
+
+    def size(expected)
+      raise_error("element #{@decoded_json.inspect} is not sizable") unless @decoded_json.respond_to?(:size)
+      return if @decoded_json.size == expected
+      raise_error("element #{@decoded_json.inspect} has #{@decoded_json.size} items, expected #{expected}")
     end
 
     def item(index)
