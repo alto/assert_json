@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.0
+
+ * add support for `size` (to test the size of arrays and hashes) (thanks to [@thomasjachmann](https://github.com/thomasjachmann), see [pull request 9](https://github.com/alto/assert_json/pull/9))
+
 ## 0.3.0
 
  * add support for `has_only` (to test that objects have the declared set of properties and nothing more) (thanks to [@derek-watson](https://github.com/derek-watson), see [issue 8](https://github.com/alto/assert_json/pull/8))
