@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.authors = ["Thorsten Böttger"]
   s.email = %w(boettger@mt7.de)
-  s.homepage = %w(https://github.com/alto/assert_json)
+  s.homepage = 'https://github.com/alto/assert_json'
   s.licenses = ["MIT"]
 
   s.files         = `git ls-files`.split("\n")
