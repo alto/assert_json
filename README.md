@@ -62,7 +62,7 @@ You can also check the size of arrays like this
 
 ```ruby
 assert_json '["value1", "value2"]' do
-  size 2
+  has_length_of 2
 end
 ```
 

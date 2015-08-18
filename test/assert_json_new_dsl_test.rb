@@ -127,25 +127,25 @@ class AssertJsonNewDslTest < Minitest::Test
       end
     end
 
-    should "test_array_size" do
+    should "test_array_has_length_of" do
       assert_json '["value1","value2"]' do
-        size 2
+        has_length_of 2
       end
     end
 
-    should "test_array_size_error" do
+    should "test_array_has_length_of_error" do
       assert_raises(MiniTest::Assertion) do
         assert_json '["single value"]' do
-          size 2
+          has_length_of 2
         end
       end
     end
 
-    should "test_nested_array_size" do
+    should "test_nested_array_has_length_of" do
       assert_json '["value1",["value2.1","value2.2","value3.3"]]' do
-        size 2
+        has_length_of 2
         item 1 do
-          size 3
+          has_length_of 3
         end
       end
     end
