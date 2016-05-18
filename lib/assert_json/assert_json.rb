@@ -99,7 +99,11 @@ module AssertJson
       when NilClass
         raise_error("no element left")
       else
-        flunk
+        raise ArgumentError,
+          format(
+            "can't compare %s(%s) with %s(%s)",
+            token, token.class, arg, arg.class
+          )
       end
 
       @expected_keys.push arg
