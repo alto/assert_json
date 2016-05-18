@@ -32,6 +32,38 @@ class AssertJsonTest < Minitest::Test
     end
   end
 
+  context "numbers" do
+    should "test_integer" do
+      assert_json '{"some":1}' do |json|
+        json.element "some", 1
+      end
+
+      assert_json '{"some":-1}' do |json|
+        json.element "some", -1
+      end
+    end
+
+    should "test_float" do
+      assert_json '{"some":1.234}' do |json|
+        json.element "some", 1.234
+      end
+    end
+
+    should "test_bigdecimal" do
+      require 'bigdecimal'
+
+      assert_raises(MiniTest::Assertion) do
+        assert_json '{"some":1.234}' do |json|
+          json.element "some", BigDecimal.new('1.234')
+        end
+      end
+
+      assert_json '{"some":"1.234"}' do |json|
+        json.element "some", BigDecimal.new('1.234')
+      end
+    end
+  end
+
   context "hashes" do
     should "test_single_hash" do
       assert_json '{"key":"value"}' do |json|

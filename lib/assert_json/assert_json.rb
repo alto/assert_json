@@ -84,11 +84,11 @@ module AssertJson
           when Symbol
             gen_error.call if second_arg.to_s != token[arg]
           else
-            gen_error.call if second_arg != token[arg]
+            gen_error.call if second_arg.to_json != token[arg].to_json
           end
         end
       when Array
-        raise_error("element #{arg} not found") if !block_given? && token != arg
+        raise_error("element #{arg} not found") if !block_given? && token.to_json != arg.to_json
       when String
         case arg
         when Regexp
