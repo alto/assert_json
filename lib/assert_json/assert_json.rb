@@ -52,7 +52,7 @@ module AssertJson
       decoded_json_in_scope = @decoded_json
       @decoded_json = @decoded_json[index]
       begin
-        yield if block_given?
+        yield @decoded_json if block_given?
         test_for_unexpected_keys(index)
       ensure
         @decoded_json = decoded_json_in_scope
@@ -116,7 +116,7 @@ module AssertJson
                         else
                           token
                         end
-        yield
+        yield @decoded_json
         test_for_unexpected_keys(arg)
       ensure
         @expected_keys = expected_keys_in_scope
