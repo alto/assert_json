@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0
+
+ * breaking change: drop support for test-unit and older versions of minitest
+
 ## 0.4.1
 
  * remove conflicts with test/unit (see [issue 10](https://github.com/alto/assert_json/issues/10) for details, thanks to [@thomasjachmann](https://github.com/thomasjachmann), for [fixing this](https://github.com/alto/assert_json/pull/11))
