@@ -14,7 +14,7 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
     end
 
     should "test_on_root_object_failure" do
-      err = assert_raises(MiniTest::Assertion) do
+      err = assert_raises(Minitest::Assertion) do
         assert_json '{"keyA":"value","keyB":"value"}' do
           has_only
           has 'keyA', 'value'
@@ -35,7 +35,7 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
     end
 
     should "test_on_root_object_with_sub_object_failure" do
-      err = assert_raises(MiniTest::Assertion) do
+      err = assert_raises(Minitest::Assertion) do
         assert_json '{"keyA":{"subKeyA":"value","subKeyB":"value"},"keyB":"value"}' do
           has_only
           has 'keyA' do
@@ -58,7 +58,7 @@ class AssertJsonHasNoUnexpectedKeysTest < Minitest::Test
     end
 
     should "test_on_sub_object_failure" do
-      err = assert_raises(MiniTest::Assertion) do
+      err = assert_raises(Minitest::Assertion) do
         assert_json '{"keyA":{"subKeyA":"value","subKeyB":"value"},"keyB":"value"}' do
           has 'keyA' do
             has_only
@@ -98,7 +98,7 @@ JSON
     end
 
     should "test_on_root_array_of_objects_failure" do
-      err = assert_raises(MiniTest::Assertion) do
+      err = assert_raises(Minitest::Assertion) do
         json = <<JSON
 [
   {
