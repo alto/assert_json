@@ -34,7 +34,7 @@ module AssertJson
   # nodoc
   class Json
     def initialize(json_string)
-      @decoded_json = ActiveSupport::JSON.decode(json_string)
+      @decoded_json = @root = ActiveSupport::JSON.decode(json_string)
       @expected_keys = []
       @only = false
     end
@@ -52,7 +52,7 @@ module AssertJson
       decoded_json_in_scope = @decoded_json
       @decoded_json = @decoded_json[index]
       begin
-        yield if block_given?
+        yield @decoded_json if block_given?
         test_for_unexpected_keys(index)
       ensure
         @decoded_json = decoded_json_in_scope
@@ -116,7 +116,7 @@ module AssertJson
                         else
                           token
                         end
-        yield
+        yield @decoded_json
         test_for_unexpected_keys(arg)
       ensure
         @expected_keys = expected_keys_in_scope
@@ -150,6 +150,10 @@ module AssertJson
       unexpected_keys = @decoded_json.keys - @expected_keys
       return if unexpected_keys.count <= 0
       raise_error("element #{name} has unexpected keys: #{unexpected_keys.join(', ')}")
+    end
+
+    def [](key)
+      @root[key]
     end
 
     private
